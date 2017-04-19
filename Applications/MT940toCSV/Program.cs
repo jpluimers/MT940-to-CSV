@@ -52,6 +52,8 @@ namespace MT940toCSV
                 TransactionBalance forwardAvailableBalance = statement.ForwardAvailableBalance;
                 TransactionBalance openingBalance = statement.OpeningBalance;
                 TransactionDetails transactionDetails = transaction.Details;
+                var transactionDescription = transaction.Description.Replace(Environment.NewLine, "");
+                AbnAmroTransactionDescription abnAmroTransactionDescription = new AbnAmroTransactionDescription(transactionDescription);
                 var entry = new
                 {
                     // Statement:
@@ -87,7 +89,16 @@ namespace MT940toCSV
                     Currency = transaction.Amount.Currency,
                     Value = transaction.Amount.Value,
                     DebitCredit = transaction.DebitCredit,
-                    TransactionDescription = transaction.Description.Replace(Environment.NewLine, ""),
+                    TransactionDescription = transactionDescription,
+                    AATD_BetalingsKenmerk = abnAmroTransactionDescription.BetalingsKenmerk,
+                    AATD_Bic = abnAmroTransactionDescription.Bic,
+                    AATD_Iban = abnAmroTransactionDescription.Iban,
+                    AATD_Incassant = abnAmroTransactionDescription.Incassant,
+                    AATD_Kenmerk = abnAmroTransactionDescription.Kenmerk,
+                    AATD_Machtiging = abnAmroTransactionDescription.Machtiging,
+                    AATD_Naam = abnAmroTransactionDescription.Naam,
+                    AATD_Nr = abnAmroTransactionDescription.Nr,
+                    AATD_TransactionType = abnAmroTransactionDescription.TransactionType,
                     TransactionDetails = transactionDetails,
                     TD_Account = transactionDetails.Account,
                     TD_Description = transactionDetails.Description,
