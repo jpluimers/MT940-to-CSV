@@ -1,10 +1,37 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{FAAE47E8-B3A1-48C4-BD69-4BD96A675BCA}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{88AD3E8E-BB74-4E4F-A9E7-9515741767F8}"
+	ProjectSection(SolutionItems) = preProject
+		Examples\ABNAMRO-MT940-voorbeeld.txt = Examples\ABNAMRO-MT940-voorbeeld.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MT940toCSV", "Applications\MT940toCSV\MT940toCSV.csproj", "{F6CE9A42-5EB0-4463-8456-A35A085BECAC}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6CE9A42-5EB0-4463-8456-A35A085BECAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6CE9A42-5EB0-4463-8456-A35A085BECAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6CE9A42-5EB0-4463-8456-A35A085BECAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6CE9A42-5EB0-4463-8456-A35A085BECAC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{88AD3E8E-BB74-4E4F-A9E7-9515741767F8} = {FAAE47E8-B3A1-48C4-BD69-4BD96A675BCA}
 	EndGlobalSection
 EndGlobal
