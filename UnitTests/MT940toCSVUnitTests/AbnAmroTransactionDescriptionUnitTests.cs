@@ -44,6 +44,19 @@ namespace MT940toCSVUnitTests
         }
 
         [TestMethod]
+        public void Trtp_SepaOverboeking_Succeeds()
+        {
+            const string transactionDescription = "/TRTP/SEPA OVERBOEKING/IBAN/NL43SNSB0927873351/BIC/SNSBNL2A/NAME/SLACHTHUIS HET VARKEN/REMI/MAALTIJDEN BEZORGD  BON NR 1619 DECEMBER 2015/EREF/NOTPROVIDED";
+            var subject = new AbnAmroTransactionDescription(transactionDescription);
+            Assert.AreEqual("SNSBNL2A", subject.Bic);
+            Assert.AreEqual(AbnAmroTransactionDescription.TransactionTypes.Trtp_SepaOverboeking, subject.TransactionType);
+            Assert.AreEqual("NL43SNSB0927873351", subject.Iban);
+            Assert.AreEqual("NOTPROVIDED", subject.Kenmerk);
+            Assert.AreEqual("SLACHTHUIS HET VARKEN", subject.Naam);
+            Assert.AreEqual("MAALTIJDEN BEZORGD  BON NR 1619 DECEMBER 2015", subject.Omschrijving);
+        }
+
+        [TestMethod]
         public void SepaOverboeking_Salaris_Succeeds()
         {
             var subject = new AbnAmroTransactionDescription("SEPA OVERBOEKING                 IBAN: NL77DEUT0168784146BIC: DEUTNL2AXXX                 NAAM: AUTOMATIC DATA PROCESSINGLTD                              OMSCHRIJVING: HET BEDRIJF EEN DIENSTVERLENER                    KENMERK: 53789468");
@@ -82,6 +95,21 @@ namespace MT940toCSVUnitTests
         }
 
         [TestMethod]
+        public void Trtp_SepaIncassoAlgemeenDoorlopend_Succeeds()
+        {
+            const string transactionDescription = @"/TRTP/SEPA INCASSO ALGEMEEN DOORLOPEND/CSID/NL70XS4332875340001/NAME/XS4ALL INTERNET B.V./MARF/M10009560656/REMI/FACTUUR 03-12-2019, VRAGEN  ZIE XS4ALL.NL/FACTUUR./IBAN/NL55INGB0004683839/BIC/INGBNL2A/EREF/141201960026294";
+            var subject = new AbnAmroTransactionDescription(transactionDescription);
+            Assert.AreEqual("INGBNL2A", subject.Bic);
+            Assert.AreEqual(AbnAmroTransactionDescription.TransactionTypes.Trtp_SepaIncassoAlgemeenDoorlopend, subject.TransactionType);
+            Assert.AreEqual("NL55INGB0004683839", subject.Iban);
+            Assert.AreEqual("141201960026294", subject.Kenmerk);
+            Assert.AreEqual("NL70XS4332875340001", subject.Incassant);
+            Assert.AreEqual("M10009560656", subject.Machtiging);
+            Assert.AreEqual("XS4ALL INTERNET B.V.", subject.Naam);
+            Assert.AreEqual("FACTUUR 03-12-2019, VRAGEN  ZIE XS4ALL.NL/FACTUUR.", subject.Omschrijving);
+        }
+
+        [TestMethod]
         public void SepaIdeal_Bol_Succeeds()
         {
             var subject = new AbnAmroTransactionDescription("SEPA IDEAL                       IBAN: NL39INGB0681706103BIC: INGBNL2A                    NAAM: BOL.COM B.V.OMSCHRIJVING: 9212080300 9855623 900883122 BOL.COM BESTELLING 9212080300 BOL.COM                  KENMERK: 18-12-2016 19:48 9855623900883122");
@@ -96,7 +124,22 @@ namespace MT940toCSVUnitTests
         }
 
         [TestMethod]
-        public void SepaIdeal_Cak_Succeeds()
+        public void Trtp_SepaIdeal_Bol_Succeeds()
+        {
+            const string transactionDescription = "/TRTP/IDEAL/IBAN/NL39INGB0681706103/BIC/INGBNL2A/NAME/BOL.COM B.V./REMI/9212080300 9855623 900883122 BOL.COM BESTELLING 9212080300 BOL.COM/EREF/18-12-2016 19:48 9855623900883122";
+            var subject = new AbnAmroTransactionDescription(transactionDescription);
+            Assert.AreEqual("INGBNL2A", subject.Bic);
+            Assert.AreEqual(AbnAmroTransactionDescription.TransactionTypes.Trtp_Ideal, subject.TransactionType);
+            Assert.AreEqual("NL39INGB0681706103", subject.Iban);
+            Assert.AreEqual("18-12-2016 19:48 9855623900883122", subject.Kenmerk);
+            Assert.AreEqual(null, subject.Incassant);
+            Assert.AreEqual(null, subject.Machtiging);
+            Assert.AreEqual("BOL.COM B.V.", subject.Naam);
+            Assert.AreEqual("9212080300 9855623 900883122 BOL.COM BESTELLING 9212080300 BOL.COM", subject.Omschrijving);
+        }
+
+        [TestMethod]
+        public void SepaAcceptGiro_Cak_Succeeds()
         {
             var subject = new AbnAmroTransactionDescription("SEPA ACCEPTGIROBETALING          IBAN: NL39ABNA0616385485BIC: ABNANL2A                    NAAM: CAKBETALINGSKENM.: 9120547590174    KENMERK: EB WLZ 2016-NOV FACT 20547590174");
             Assert.AreEqual("ABNANL2A", subject.Bic);

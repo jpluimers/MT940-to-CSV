@@ -98,6 +98,7 @@ namespace MT940toCSV
                     AATD_Machtiging = abnAmroTransactionDescription.Machtiging,
                     AATD_Naam = abnAmroTransactionDescription.Naam,
                     AATD_Nr = abnAmroTransactionDescription.Nr,
+                    AATD_Omschrijving = abnAmroTransactionDescription.Omschrijving,
                     AATD_TransactionType = abnAmroTransactionDescription.TransactionType,
                     TransactionDetails = transactionDetails,
                     TD_Account = transactionDetails.Account,
