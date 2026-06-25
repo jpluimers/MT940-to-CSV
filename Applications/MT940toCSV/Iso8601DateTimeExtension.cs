@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace MT940toCSV
 {
@@ -9,12 +10,12 @@ namespace MT940toCSV
     {
         public static string ToIso8601DateOnly(this DateTime value)
         {
-            return value.ToString("yyyy-MM-dd");
+            return value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
             // System.DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssK");
         }
         public static string ToIso8601DateTime(this DateTime value)
         {
-            return value.ToString("yyyy-MM-ddTHH:mm:ssK");
+            return value.ToString("yyyy-MM-ddTHH:mm:ssK", CultureInfo.InvariantCulture);
         }
     }
 }

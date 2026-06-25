@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{FAAE47E8-B3A1-48C4-BD69-4BD96A675BCA}"
 	ProjectSection(SolutionItems) = preProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MT940toCSV", "Applications\MT940toCSV\MT940toCSV.csproj", "{F6CE9A42-5EB0-4463-8456-A35A085BECAC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MT940toCSVUnitTests", "UnitTests\MT940toCSVUnitTests\MT940toCSVUnitTests.csproj", "{FCED26C1-72BB-41B5-B91C-C352BE199F64}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2F92E8F9-122D-4B99-820C-AB9866E82DFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,5 +41,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{88AD3E8E-BB74-4E4F-A9E7-9515741767F8} = {FAAE47E8-B3A1-48C4-BD69-4BD96A675BCA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DE3826C1-479C-4E4B-9BC5-2A9E5E25E4FF}
 	EndGlobalSection
 EndGlobal

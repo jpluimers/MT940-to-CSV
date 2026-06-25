@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Raptorious.SharpMt940Lib;
 using Raptorious.SharpMt940Lib.Mt940Format;
 using CsvHelper;
+using CsvHelper.Configuration;
+using System.Runtime.InteropServices;
 
 namespace MT940toCSV
 {
@@ -25,15 +27,18 @@ namespace MT940toCSV
 
         private static void ProcessCsvFile(string mt940FilePath)
         {
-            var cultureInfo = new CultureInfo("nl-NL"); // ABN-AMRO uses decimal comma; https://en.wikipedia.org/wiki/Decimal_mark#Countries_using_Arabic_numerals_with_decimal_comma
-            ICollection<CustomerStatementMessage> statements = Mt940Parser.Parse(new AbnAmro(), mt940FilePath, cultureInfo);
+            var nlNlCultureInfo = new CultureInfo("nl-NL"); // ABN-AMRO uses decimal comma; https://en.wikipedia.org/wiki/Decimal_mark#Countries_using_Arabic_numerals_with_decimal_comma
+            ICollection<CustomerStatementMessage> statements = Mt940Parser.Parse(new AbnAmro(), mt940FilePath, nlNlCultureInfo);
 
             var mapped = FlattenThenMap(statements);
 
             string csvFilePath = Path.ChangeExtension(mt940FilePath, ".csv");
             using (TextWriter writer = new StreamWriter(csvFilePath))
             {
-                var csv = new CsvWriter(writer);
+                //var enUsCultureInfo = new CultureInfo("en-US"); // export as US-english
+                //var csvConfiguration = new CsvConfiguration { CultureInfo = enUsCultureInfo };
+                var csvConfiguration = new CsvConfiguration { CultureInfo = nlNlCultureInfo, Delimiter = ";" }; // semicolon is default delimiter for Dutch
+                var csv = new CsvWriter(writer, csvConfiguration);
                 csv.Configuration.Encoding = Encoding.UTF8;
                 csv.WriteRecords(mapped);
             }
@@ -90,7 +95,7 @@ namespace MT940toCSV
                     Value = transaction.Amount.Value,
                     DebitCredit = transaction.DebitCredit,
                     TransactionDescription = transactionDescription,
-                    AATD_BetalingsKenmerk = abnAmroTransactionDescription.BetalingsKenmerk,
+                    AATD_BetalingsKenmerk = abnAmroTransactionDescription.Betalingskenmerk,
                     AATD_Bic = abnAmroTransactionDescription.Bic,
                     AATD_Iban = abnAmroTransactionDescription.Iban,
                     AATD_Incassant = abnAmroTransactionDescription.Incassant,
