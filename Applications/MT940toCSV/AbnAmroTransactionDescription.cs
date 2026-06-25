@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MT940toCSV
 {
@@ -43,6 +39,10 @@ namespace MT940toCSV
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
             public const string Trtp_SepaOverboeking_Slash = Trtp_SepaOverboeking + Slash;
             public const string SepaPeriodiekeOverboeking = "SEPA PERIODIEKE OVERB.";
+        }
+        public class InvestmentTransactionComments
+        {
+            public const string ZieUwNotaVoorDetails = "ZIE UW NOTA VOOR DETAILS";
         }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses")]
         private class Space_Colon_FieldHeaders
@@ -88,16 +88,29 @@ namespace MT940toCSV
         public AbnAmroTransactionDescription(string transactionDescription)
         {
             var stream = transactionDescription;
-            if (stream.StartsWith(TransactionTypes.AbnAmroBankNv, StringComparison.Ordinal) ||
-                stream.StartsWith(TransactionTypes.AbnAmroBeleggen, StringComparison.Ordinal) ||
+            bool isAbnAmroBeleggen = stream.StartsWith(TransactionTypes.AbnAmroBeleggen, StringComparison.Ordinal);
+            if (isAbnAmroBeleggen ||
+                stream.StartsWith(TransactionTypes.AbnAmroBankNv, StringComparison.Ordinal) ||
                 stream.StartsWith(TransactionTypes.AfsluitingRenteEnOfKosten, StringComparison.Ordinal))
             {
-                Omschrijving = stream.Substring(65);
-                stream = stream.Substring(0, 65);
-                Kenmerk = stream.Substring(33);
-                stream = stream.Substring(0, 33);
+                if (isAbnAmroBeleggen &&
+                    stream.EndsWith(InvestmentTransactionComments.ZieUwNotaVoorDetails, StringComparison.Ordinal) &&
+                    (stream.Length == 57)) // only AbnAmroBeleggen and ZieUwNotaVoorDetails
+                {
+                    ; // do nothing so we fall through after the "else" because setting Kenmerk and truncating stream is enough in this case.
+                }
+                else
+                {
+                    const int descriptionStartIndex = 65;
+                    if (stream.Length > descriptionStartIndex)
+                        Omschrijving = stream.Substring(descriptionStartIndex);
+                    stream = stream.Substring(0, descriptionStartIndex);
+                }
+                const int kenmerkStartIndex = 33;
+                Kenmerk = stream.Substring(kenmerkStartIndex);
+                stream = stream.Substring(0, kenmerkStartIndex);
             }
-            else if (stream.StartsWith(TransactionTypes.Bea, StringComparison.Ordinal) || 
+            else if (stream.StartsWith(TransactionTypes.Bea, StringComparison.Ordinal) ||
                      stream.StartsWith(TransactionTypes.Gea, StringComparison.Ordinal))
             {
                 Nr = Extractor(Space_Colon_FieldHeaders.Nr, ref stream);

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MT940toCSV;
 
 namespace MT940toCSVUnitTests
@@ -198,7 +197,7 @@ namespace MT940toCSVUnitTests
         }
 
         [TestMethod]
-        public void AbnAmroBeleggen_Succeeds()
+        public void AbnAmroBeleggen_Servicekosten_BTW_Succeeds()
         {
             var subject = new AbnAmroTransactionDescription("ABNAMRO BELEGGEN                 SERVICEKOSTEN              47,99BTW                        10,08 ZIE UW NOTA VOOR DETAILS");
             Assert.AreEqual(null, subject.Bic);
@@ -210,6 +209,38 @@ namespace MT940toCSVUnitTests
             Assert.AreEqual(null, subject.Naam);
             Assert.AreEqual(null, subject.Nr);
             Assert.AreEqual("BTW                        10,08 ZIE UW NOTA VOOR DETAILS", subject.Omschrijving);
+        }
+
+        [TestMethod]
+        public void AbnAmroBeleggen_Servicekosten_Succeeds()
+        {
+            // shortened version of `AbnAmroBeleggen_Servicekosten_BTW_Succeeds`, but never publicly documented 
+            var subject = new AbnAmroTransactionDescription("ABNAMRO BELEGGEN                 SERVICEKOSTEN              52,29");
+            Assert.AreEqual(null, subject.Bic);
+            Assert.AreEqual(AbnAmroTransactionDescription.TransactionTypes.AbnAmroBeleggen, subject.TransactionType);
+            Assert.AreEqual(null, subject.Iban);
+            Assert.AreEqual("SERVICEKOSTEN              52,29", subject.Kenmerk);
+            Assert.AreEqual(null, subject.Incassant);
+            Assert.AreEqual(null, subject.Machtiging);
+            Assert.AreEqual(null, subject.Naam);
+            Assert.AreEqual(null, subject.Nr);
+            Assert.AreEqual(null, subject.Omschrijving);
+        }
+
+        [TestMethod]
+        public void AbnAmroBeleggen_ZieUwNotaVoorDetails_Succeeds()
+        {
+            // shortened version of `AbnAmroBeleggen_Servicekosten_Succeeds`, but never publicly documented
+            var subject = new AbnAmroTransactionDescription("ABNAMRO BELEGGEN                 ZIE UW NOTA VOOR DETAILS");
+            Assert.AreEqual(null, subject.Bic);
+            Assert.AreEqual(AbnAmroTransactionDescription.TransactionTypes.AbnAmroBeleggen, subject.TransactionType);
+            Assert.AreEqual(null, subject.Iban);
+            Assert.AreEqual(AbnAmroTransactionDescription.InvestmentTransactionComments.ZieUwNotaVoorDetails, subject.Kenmerk);
+            Assert.AreEqual(null, subject.Incassant);
+            Assert.AreEqual(null, subject.Machtiging);
+            Assert.AreEqual(null, subject.Naam);
+            Assert.AreEqual(null, subject.Nr);
+            Assert.AreEqual(null, subject.Omschrijving);
         }
 
         [TestMethod]
