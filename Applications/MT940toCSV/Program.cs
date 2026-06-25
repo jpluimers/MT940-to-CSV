@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using Raptorious.SharpMt940Lib;
 using Raptorious.SharpMt940Lib.Mt940Format;
 using CsvHelper;
 using CsvHelper.Configuration;
-using System.Runtime.InteropServices;
 
 namespace MT940toCSV
 {
@@ -20,8 +19,14 @@ namespace MT940toCSV
         {
             foreach (var mt940FilePath in args)
             {
-                if (File.Exists(mt940FilePath))
-                    ProcessCsvFile(mt940FilePath);
+                string currentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string fullMt940FilePath = Path.GetFullPath(Path.Combine(currentPath, mt940FilePath));
+                if (File.Exists(fullMt940FilePath))
+                    ProcessCsvFile(fullMt940FilePath);
+                else
+                {
+                    Console.Error.WriteLine($"File '{fullMt940FilePath}' (from parameter '{mt940FilePath}') does not exist while running from {currentPath}");
+                }
             }
         }
 
